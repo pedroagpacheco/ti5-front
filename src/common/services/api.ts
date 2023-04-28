@@ -1,28 +1,14 @@
 import axios from 'axios'
-import http from 'http'
 
 const api = axios.create({
   baseURL: 'http://localhost:5000',
-  headers: { 'Access-Control-Allow-Origin':'*' },
-  httpAgent: new http.Agent({  
-    rejectUnauthorized: false
-  })
+  headers: { 'Access-Control-Allow-Origin':'*' }
 })
-
-// const get2 = async(url:string) => {
-//   try {
-//     const httpAgent = new http.Agent({ rejectUnauthorized: false })
-
-//      axios.get(url, { httpAgent: httpAgent })    
-//   } catch (error) {
-//     return error
-//   }
-// }
 
 const get = async (url: string) => {
   try {
-    const response = await api.get(url)
-    return response
+    const { data } = await api.get(url)
+    return data
   } catch (error) {
     console.error(error)
     return error

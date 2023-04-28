@@ -1,4 +1,4 @@
-import { Header } from 'common/components/Header'
+import { Header } from 'common/components/header'
 import { ActivationPanel } from 'common/components/activationPanel'
 
 import './app.scss'
