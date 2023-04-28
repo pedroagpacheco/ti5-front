@@ -15,7 +15,7 @@ const get = async (url: string) => {
   }
 }
 
-const post = async (url: string, data: Record<string, string | number | boolean>) => {
+const post = async (url: string, data?: Record<string, string | number | boolean>) => {
   try {
     const response = await api.post(url, data)
     return response.data
