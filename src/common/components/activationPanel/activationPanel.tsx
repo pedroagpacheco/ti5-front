@@ -1,4 +1,9 @@
 import { useState } from 'react'
+import { get } from 'common/services/api'
+
+const onClickHandler = () => {
+  get('https://localhost:5000/api/Chuvarduino/GetSensorData')
+}
 
 const ActivationPanel = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -14,7 +19,10 @@ const ActivationPanel = () => {
       </h1>
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded w-32"
-        onClick={() => toggleActive()}>
+        onClick={() => {
+          toggleActive();
+          onClickHandler();
+        }}>
         {isOpen ? 'Fechar Janela' : 'Abrir Janela'}
       </button>
     </div>
