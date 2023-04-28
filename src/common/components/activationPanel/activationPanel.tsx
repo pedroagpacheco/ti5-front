@@ -1,31 +1,44 @@
 import { useState, useEffect } from 'react'
 
-import { get } from 'common/services/api'
+import { get, post } from 'common/services/api'
 
 const ActivationPanel = () => {
-  const [isOpen, setIsOpen] = useState(false)
   const [actualData, setActualData] = useState({})
   
-  const onClickHandler = async () => {
+  const fetchActualState = async () => {
     setActualData(await get('http://localhost:5000/api/Chuvarduino/GetSensorData'))
   }
 
+  const onClickHandler = async () => {
+    await post(
+      'http://localhost:5000/api/Chuvarduino/PostWindowMovement',
+      { estado: actualData.estado == 1 ? 0 : 1 }
+    )
+
+    fetchActualState()
+  }
+
   const toggleActive = () => {
-    setIsOpen(!isOpen)
     onClickHandler()
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchActualState()
+    } , 1000)
+  }, [])
 
   return (
     <div className="w-full mb-2 items-center flex flex-col">
       <h1 className="my-16 text-5xl">
-        {isOpen ? 'A janela está aberta' : 'A janela está fechada'}
+        {actualData.estado == 1 ? 'A janela está aberta' : 'A janela está fechada'}
       </h1>
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded w-32"
         onClick={() => {
           toggleActive()
         }}>
-        {isOpen ? 'Fechar Janela' : 'Abrir Janela'}
+        {actualData.estado == 1 ? 'Fechar Janela' : 'Abrir Janela'}
       </button>
     </div>
   )

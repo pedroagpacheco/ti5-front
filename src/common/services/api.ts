@@ -7,8 +7,8 @@ const api = axios.create({
 
 const get = async (url: string) => {
   try {
-    const { data } = await api.get(url)
-    return data
+    const response = await api.get(url)
+    return response.data
   } catch (error) {
     console.error(error)
     return error
