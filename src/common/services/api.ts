@@ -1,8 +1,15 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
-  headers: { 'Access-Control-Allow-Origin':'*' }
+  baseURL: 'https://e8ed-2804-14c-5bd0-81d7-40d5-a9dd-57cc-ac4a.ngrok-free.app',
+  headers: {
+    'Access-Control-Allow-Origin':'*',
+    'Accept': '*/*',
+    'content-type': 'application/json',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive'
+  },
+  withCredentials: false
 })
 
 const get = async (url: string) => {
