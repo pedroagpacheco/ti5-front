@@ -39,7 +39,7 @@ const ActivationPanel = () => {
   useEffect(() => {
     setInterval(() => {
       fetchActualState()
-    } , 1000)
+    } , 200)
   }, [])
 
   return (
