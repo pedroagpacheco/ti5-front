@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
+
 import { get, post } from 'common/services/api'
 import Switch from '@mui/material/Switch';
 import classNames from 'classnames';
 
 const ActivationPanel = () => {
-  const [actualData, setActualData] = useState({})
+  const [actualData, setActualData] = useState({automatico:"1", estado:"0", valor:"500"})
   const [checked, setChecked] = useState(true)
   
   const fetchActualState = async () => {
@@ -12,7 +13,11 @@ const ActivationPanel = () => {
   }
 
   const onClickHandler = async () => {
-    await post('/dados', { estado: actualData[0]?.estado == 1 ? 0 : 1 })
+    await post('/dados', {
+      estado: actualData?.estado == '1' ? '0' : '1',
+      automatico: '0',
+      valor: actualData?.valor
+    })
 
     fetchActualState()
   }
@@ -26,11 +31,7 @@ const ActivationPanel = () => {
   };
 
   useEffect(() => {
-    console.log(checked)
-  }, [checked])
-
-  useEffect(() => {
-    setTimeout(() => {
+    setInterval(() => {
       fetchActualState()
     } , 1000)
   }, [])
@@ -38,7 +39,7 @@ const ActivationPanel = () => {
   return (
     <div className="w-full mb-2 items-center flex flex-col">
       <h1 className="my-16 text-5xl">
-        {actualData[0]?.estado == 1 ? 'A janela está aberta' : 'A janela está fechada'}
+        {actualData?.estado == '1' ? 'A janela está aberta' : 'A janela está fechada'}
       </h1>
       <div className="max-w-7xl mb-8">
         <Switch onChange={handleSwitch} checked={checked} />
@@ -52,8 +53,9 @@ const ActivationPanel = () => {
         onClick={() => {
           toggleActive()
         }}>
-        {actualData[0]?.estado == 1 ? 'Fechar Janela' : 'Abrir Janela'}
+        {actualData?.estado == '1' ? 'Fechar Janela' : 'Abrir Janela'}
       </button>
+      <h1 className="max-w-7xl mx-auto my-8 text-2xl">Valor atual de leitura: {actualData?.valor}</h1>
     </div>
   )
 }
