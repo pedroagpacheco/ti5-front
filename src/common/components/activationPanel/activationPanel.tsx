@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react'
 
-import { post } from 'common/services/api'
+import { get, post } from 'common/services/api'
 
 const ActivationPanel = () => {
   const [actualData, setActualData] = useState({})
   
   const fetchActualState = async () => {
-    setActualData(await post('/api/Chuvarduino/GetSensorData'))
+    setActualData(await get('/dados'))
   }
 
   const onClickHandler = async () => {
-    await post(
-      `/api/Chuvarduino/PostWindowMovement?estado=${actualData[0]?.estado == 1 ? 0 : 1}`
-    )
+    await post('/dados', { estado: actualData[0]?.estado == 1 ? 0 : 1 })
 
     fetchActualState()
   }
