@@ -36,13 +36,19 @@ const ActivationPanel = () => {
     } , 1000)
   }, [])
 
+  useEffect(() => {
+    if (actualData?.automatico == '0') {
+      setChecked(false)
+    }
+  }, [actualData])
+
   return (
     <div className="w-full mb-2 items-center flex flex-col">
       <h1 className="my-16 text-5xl">
         {actualData?.estado == '1' ? 'A janela está aberta' : 'A janela está fechada'}
       </h1>
-      <div className="max-w-7xl mb-8">
-        <Switch onChange={handleSwitch} checked={checked} />
+      <div className="max-w-7xl mb-8 text-xl">
+        Automático: <Switch onChange={handleSwitch} checked={checked} />
       </div>
       <button
         className={classNames('py-2 px-4 rounded w-32', {
