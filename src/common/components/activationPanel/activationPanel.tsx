@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 const ActivationPanel = () => {
   const [actualData, setActualData] = useState({automatico:"1", estado:"0", valor:"500"})
-  const [checked, setChecked] = useState(true)
+  const checked = actualData?.automatico == '1'
   
   const fetchActualState = async () => {
     setActualData(await get('/dados'))
@@ -26,8 +26,14 @@ const ActivationPanel = () => {
     onClickHandler()
   }
 
-  const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked)
+  const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    await post('/dados', {
+      estado: actualData?.estado,
+      automatico: event.target.checked,
+      valor: actualData?.valor
+    })
+
+    fetchActualState()
   };
 
   useEffect(() => {
@@ -36,19 +42,13 @@ const ActivationPanel = () => {
     } , 1000)
   }, [])
 
-  useEffect(() => {
-    if (actualData?.automatico == '0') {
-      setChecked(false)
-    }
-  }, [actualData])
-
   return (
     <div className="w-full mb-2 items-center flex flex-col">
       <h1 className="my-16 text-5xl">
         {actualData?.estado == '1' ? 'A janela está aberta' : 'A janela está fechada'}
       </h1>
       <div className="max-w-7xl mb-8 text-xl">
-        Automático: <Switch onChange={handleSwitch} checked={checked} />
+        Automático: <Switch onChange={handleSwitch} checked={actualData?.automatico == '1'} />
       </div>
       <button
         className={classNames('py-2 px-4 rounded w-32', {
