@@ -29,7 +29,7 @@ const ActivationPanel = () => {
   const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     await post('/dados', {
       estado: actualData?.estado,
-      automatico: event.target.checked,
+      automatico: event.target.checked == true ? '1' : '0',
       valor: actualData?.valor
     })
 
